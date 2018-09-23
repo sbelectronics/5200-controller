@@ -4,17 +4,16 @@
 DEVICE      = attiny85
 CLOCK      = 8000000
 PROGRAMMER = -c usbtiny 
-OBJECTS    = 5200controller.c
 # for ATTiny85
 # see http://www.engbedded.com/fusecalc/
-FUSES       = -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m 
+FUSES       = -U lfuse:w:0xE2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m 
 
 # Tune the lines below only if you know what you are doing:
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE)
 COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
 # symbolic targets:
-all:	5200controller.hex
+all:	5200controller.hex digipot-cycle.hex
 
 .c.o:
 	$(COMPILE) -c $< -o $@
@@ -39,19 +38,26 @@ load: all
 	bootloadHID 5200controller.hex
 
 clean:
-	rm -f 5200controller.hex 5200controller.elf $(OBJECTS)
+	rm -f 5200controller.hex 5200controller.elf digipot-cycle.hex digipot-cycle.elf
 
 # file targets:
-5200controller.elf: $(OBJECTS)
-	$(COMPILE) -o 5200controller.elf $(OBJECTS)
+5200controller.elf: 5200controller.c
+	$(COMPILE) -o 5200controller.elf 5200controller.c
 
 5200controller.hex: 5200controller.elf
 	rm -f 5200controller.hex
 	avr-objcopy -j .text -j .data -O ihex 5200controller.elf 5200controller.hex
 #	avr-size --format=avr --mcu=$(DEVICE) 5200controller.elf
 	avr-size 5200controller.elf
-# If you have an EEPROM section, you must also create a hex file for the
-# EEPROM and add it to the "flash" target.
+
+digipot-cycle.elf: digipot-cycle.c
+	$(COMPILE) -o digipot-cycle.elf digipot-cycle.c
+
+digipot-cycle.hex: digipot-cycle.elf
+	rm -f digipot-cycle.hex
+	avr-objcopy -j .text -j .data -O ihex digipot-cycle.elf digipot-cycle.hex
+#       avr-size --format=avr --mcu=$(DEVICE) digipot-cycle.elf
+	avr-size digipot-cycle.elf
 
 # Targets for code debugging and analysis:
 disasm:	5200controller.elf
