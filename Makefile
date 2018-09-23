@@ -25,10 +25,10 @@ all:	5200controller.hex digipot-cycle.hex
 	$(COMPILE) -S $< -o $@
 
 flash:	all
-	$(AVRDUDE) -U flash:w:5200controller.hex:i
+	$(AVRDUDE) -B 3 -c usbasp -U flash:w:5200controller.hex:i
 
 fuse:
-	$(AVRDUDE) $(FUSES)
+	$(AVRDUDE) -B 3 -c usbasp $(FUSES)
 
 # Xcode uses the Makefile targets "", "clean" and "install"
 install: flash fuse
