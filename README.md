@@ -10,7 +10,19 @@ So I made my own.
 
 ## Programming the microcontroller
 
-The microcontroller is an ATTINY85. Make sure to program both fuses.hex to the fuses, and 5200controller.hex to the program memory.
+The microcontroller is an ATTINY85.
+
+### Programming with minipro on a TL866
+
+This is the workflow I used when programming from windows, using a TL866 programmer. The TL866 is the style programmer where you remove the chip from the pcboard and insert it into the programmer. Make sure to program both fuses.hex to the fuses, and 5200controller.hex to the program memory.
+
+### Programming ICSP with usbasp/avrdude from ubuntu
+
+This is the workflow I used to do in-circuit serial programming from Ubuntu, using a usbasp programmer. The advantage of this workflow is that no ICs need to be removed from the pcboard. Only revision 0.9 and above of the pcboard have the ICSP header. You may also be able to use a windows version of avrdude instead of using ubuntu. I have not tried windows. The following two commands will program the uses and the flash:
+
+    make fuses
+    make flash
+
 
 ## Acknowledgements
 
