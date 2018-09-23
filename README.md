@@ -23,6 +23,26 @@ This is the workflow I used to do in-circuit serial programming from Ubuntu, usi
     make fuses
     make flash
 
+## History
+
+### Revision 0.3 
+
+This was the initial version of the pcboard, eight boards sold to about a half dozen people. Notable limitations are that this revision does not have an ICSP header, and must be programmed using an external programmer (i.e. TL866).
+
+There are also three solder jumpers for design purposes that needed to be soldered. SJ2 and SJ3 were two pin jumpers, just solder them across. SJ1 was a three-pin jumper that should be soldered on the two rightmost pins.
+
+### Revision 0.9
+
+This was the second version of the pcboard. New features include:
+
+- Added big button footprint. These are available at sparkfun.
+- Eliminated solder jumpers, they were only present for design debugging.
+- Eliminated pot reference V jumper, only present for design work.
+- Added reset button and pullup. It's unnecessary. Possibly could be used as a "config" button, but currently unimplemented in the code.
+- Change tactile button footprints. They were slightly too big before.
+- Added JP2 pot CS jumper and pullup. The idea was this could be removed for ICSP programming if having the digipot in circuit presented a problem. It doesn't appear to be a problem, so always leave it populated.
+- Added ICSP HDR, for in-circuit serial programming.
+
 
 ## Acknowledgements
 
